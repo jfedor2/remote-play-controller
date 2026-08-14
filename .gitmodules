@@ -1,0 +1,4 @@
+[submodule "chiaki-ng"]
+	path = chiaki-ng
+	url = https://github.com/jfedor2/chiaki-ng.git
+	branch = zephyr

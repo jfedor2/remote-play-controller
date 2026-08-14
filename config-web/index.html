@@ -1,0 +1,137 @@
+<!doctype html>
+<html style="scrollbar-gutter: stable both-edges;">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <title>PS5 Remote Play Controller Configuration</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    <script src="code.js" type="module"></script>
+</head>
+
+<body>
+
+    <div class="container d-flex flex-column" style="max-width: 720px; min-height: 100vh;">
+
+        <h1 class="mt-sm-5 mt-3">PS5 Remote Play Controller Config</h1>
+
+        <div class="row my-4">
+            <div class="col">
+                <button id="open_device" type="button" class="btn btn-primary w-100">Connect to controller</button>
+            </div>
+        </div>
+
+        <div id="error" class="alert alert-danger d-none"></div>
+        <div id="success" class="alert alert-success d-none"></div>
+
+        <div class="card mb-4">
+            <div class="card-body text-center">
+                <div id="status_latest">Not connected.</div>
+                <div class="d-flex gap-2 justify-content-center mt-2">
+                    <span id="status_badge_wifi" class="badge bg-secondary">Wi-Fi</span>
+                    <span id="status_badge_link" class="badge bg-secondary">Paired</span>
+                    <span id="status_badge_session" class="badge bg-secondary">Session</span>
+                </div>
+            </div>
+        </div>
+
+        <ul class="nav nav-tabs" id="config_tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="setup_tab" data-bs-toggle="tab" data-bs-target="#setup_pane" type="button" role="tab" aria-controls="setup_pane" aria-selected="true">Setup</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="link_tab" data-bs-toggle="tab" data-bs-target="#link_pane" type="button" role="tab" aria-controls="link_pane" aria-selected="false">Pair</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="log_tab" data-bs-toggle="tab" data-bs-target="#log_pane" type="button" role="tab" aria-controls="log_pane" aria-selected="false">Log</button>
+            </li>
+        </ul>
+
+        <div class="tab-content border border-top-0 p-3 mb-4 flex-grow-1" id="config_tabs_content">
+
+            <div class="tab-pane show active" id="setup_pane" role="tabpanel" aria-labelledby="setup_tab">
+                <div class="row mt-3">
+                    <div class="col-4 text-end">
+                        <label for="wifi_ssid_input" class="col-form-label">Wi-Fi network name</label>
+                    </div>
+                    <div class="col-8">
+                        <input type="text" id="wifi_ssid_input" maxlength="16" class="form-control">
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-4 text-end">
+                        <label for="wifi_password_input" class="col-form-label">Wi-Fi password</label>
+                    </div>
+                    <div class="col-8">
+                        <input type="password" id="wifi_password_input" maxlength="32" placeholder="unchanged if left blank" class="form-control">
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-4 text-end">
+                        <label for="account_id_input" class="col-form-label">PSN Account ID</label>
+                    </div>
+                    <div class="col-8">
+                        <input type="text" id="account_id_input" maxlength="16" placeholder="16 hex characters (e.g. 0123456789abcdef)" class="form-control">
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-4 text-end">
+                        <label for="ps5_ip_input" class="col-form-label">PS5 IP address</label>
+                    </div>
+                    <div class="col-8">
+                        <input type="text" id="ps5_ip_input" placeholder="e.g. 192.168.1.100" class="form-control">
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col">
+                        <button id="load_from_device" type="button" class="btn btn-primary w-100">Load from device</button>
+                    </div>
+                    <div class="col">
+                        <button id="save_to_device" type="button" class="btn btn-primary w-100">Save to device</button>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <p>You can find your PSN account ID <a target="_blank" href="https://www.psntools.com/psn/checker/">here</a>.</p>
+                    <p>To see the IP address, on your PS5 go to <em>Settings</em> - <em>Network</em> - <em>Connection Status</em> - <em>View Connection Status</em>.
+                </div>
+            </div>
+
+            <div class="tab-pane" id="link_pane" role="tabpanel" aria-labelledby="link_tab">
+                <div class="row mt-3">
+                    <div class="col-4 text-end">
+                        <label for="ps5_pin_input" class="col-form-label">Pairing PIN</label>
+                    </div>
+                    <div class="col-5">
+                        <input type="text" id="ps5_pin_input" maxlength="8" placeholder="8 digits shown on PS5" class="form-control">
+                    </div>
+                    <div class="col-3">
+                        <button id="link_device" type="button" class="btn btn-primary w-100">Pair</button>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <p>On your PS5, go to <em>Settings</em> - <em>System</em> - <em>Remote Play</em> - <em>Pair Device</em>.</p>
+                </div>
+            </div>
+
+            <div class="tab-pane" id="log_pane" role="tabpanel" aria-labelledby="log_tab">
+                <div id="status_log" class="text-start text-muted small" style="height: 300px; overflow-y: auto;"></div>
+            </div>
+
+        </div>
+
+        <div class="text-center text-muted mt-4 mb-4">
+            For more information, see <a class="text-reset" href="https://github.com/jfedor2/remote-play-controller">github.com/jfedor2/remote-play-controller</a>.
+        </div>
+
+    </div>
+
+</body>
+
+</html>
